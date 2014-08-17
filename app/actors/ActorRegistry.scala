@@ -1,5 +1,7 @@
 package actors
 
+import java.net.InetSocketAddress
+
 import actors.UDPConnectionStatusActorMessages.Tick
 import akka.actor.Props
 import play.api.libs.concurrent.Akka._
@@ -16,6 +18,11 @@ object ActorRegistry {
 
   val udpConnectionStatusActor = system.actorOf(Props[UDPConnectionStatusActor], name="udpConnectionStatusActor")
   system.scheduler.schedule(0.milliseconds, 1.seconds, udpConnectionStatusActor, Tick)
+
+  // autark laufender udp "datenerzeuger"
+  val udpDemoDataActor = system.actorOf(Props(new UDPDemoDataActor(new InetSocketAddress(48000))), name="udpDemoDataActor")
+  system.scheduler.schedule(0.milliseconds, 50.milliseconds, udpDemoDataActor, "tick")
+
 
   val gpsPositionActor = system.actorOf(Props[GPSPositionActor], name="gpsPositionActor")
   val pitchRollHeadingActor = system.actorOf(Props[PitchRollHeadingActor], name="pitchRollHeadingActor")
