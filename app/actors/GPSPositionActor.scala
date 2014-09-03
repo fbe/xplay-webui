@@ -4,7 +4,7 @@ import akka.actor.Actor
 import model.{MessageBigDecimals, GPSPosition}
 import utils.BigDecimalRounding
 
-class GPSPositionActor() extends Actor with BigDecimalRounding with SaveLastMessage[GPSPosition] {
+class GPSPositionActor() extends Actor with BigDecimalRounding with SaveLastMessage[GPSPosition] with StartStopLogging {
 
   receiver {
     case MessageBigDecimals(position) =>
